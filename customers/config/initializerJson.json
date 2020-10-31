@@ -1,0 +1,17 @@
+[{
+  "httpRequest": {
+    "path": "/customers/1",
+    "headers": {
+      "keyMatchStyle": "MATCHING_KEY",
+      "x-schibsted-tenant": ["motos"]
+    }
+  },
+  "httpResponse": {
+    "body": {
+      "id": "1",
+      "name": "customer1",
+      "mainAddress": "1",
+      "orders": [ "1", "2", "3" ]
+    }
+  }
+}]

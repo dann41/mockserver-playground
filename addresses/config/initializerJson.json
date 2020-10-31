@@ -1,0 +1,19 @@
+[{
+  "httpRequest": {
+    "path": "/addresses/1",
+    "headers": {
+      "keyMatchStyle": "MATCHING_KEY",
+      "x-schibsted-tenant": ["motos"]
+    }
+  },
+  "httpResponse": {
+    "body": {
+      "id": "1",
+      "street": "Calle Falsa",
+      "number": "123",
+      "city": "Sant Boi de Llobregat",
+      "province": "Barcelona",
+      "postalCode": "08830"
+    }
+  }
+}]

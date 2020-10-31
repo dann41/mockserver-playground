@@ -1,0 +1,4 @@
+###
+GET http://localhost:8020/customers/1
+accept: application/json
+x-schibsted-tenant: motos

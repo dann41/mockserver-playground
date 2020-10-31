@@ -1,0 +1,48 @@
+[{
+  "httpRequest": {
+    "path": "/orders/1",
+    "headers": {
+      "keyMatchStyle": "MATCHING_KEY",
+      "x-schibsted-tenant": ["motos"]
+    }
+  },
+  "httpResponse": {
+    "body": {
+      "id": "1",
+      "creationDate": "2020-10-26T08:00:00Z",
+      "totalAmount": 100
+    }
+  }
+},
+{
+  "httpRequest": {
+    "path": "/orders/2",
+    "headers": {
+      "keyMatchStyle": "MATCHING_KEY",
+      "x-schibsted-tenant": ["motos"]
+    }
+  },
+  "httpResponse": {
+    "body": {
+      "id": "2",
+      "creationDate": "2020-10-31T17:30:00Z",
+      "totalAmount": 69.99
+    }
+  }
+},
+{
+  "httpRequest": {
+    "path": "/orders/3",
+    "headers": {
+      "keyMatchStyle": "MATCHING_KEY",
+      "x-schibsted-tenant": ["motos"]
+    }
+  },
+  "httpResponse": {
+    "body": {
+      "id": "3",
+      "creationDate": "2020-11-03T12:27:35Z",
+      "totalAmount": 12.50
+    }
+  }
+}]

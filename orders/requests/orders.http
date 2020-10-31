@@ -1,0 +1,14 @@
+###
+GET http://localhost:8030/orders/1
+accept: application/json
+x-schibsted-tenant: motos
+
+###
+GET http://localhost:8030/orders/2
+accept: application/json
+x-schibsted-tenant: motos
+
+###
+GET http://localhost:8030/orders/3
+accept: application/json
+x-schibsted-tenant: motos
