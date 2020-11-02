@@ -13,7 +13,7 @@ To start the three containers with a single command:
 
 To verify everything is okay:
 ```
-verify-servers.sh
+./verify-servers.sh
 ```
 
 To stop all servers at once:
