@@ -6,7 +6,6 @@ services:
     ports:
       - 8010:1090
     environment:
-      MOCKSERVER_PROPERTY_FILE: /config/mockserver.properties
       MOCKSERVER_WATCH_INITIALIZATION_JSON: "true"
       MOCKSERVER_INITIALIZATION_JSON_PATH: /config/initializerJson.json
     volumes:
