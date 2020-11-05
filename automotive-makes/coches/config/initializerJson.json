@@ -1,0 +1,10 @@
+[{
+  "httpRequest": {
+    "path": "/api/makes"
+  },
+  "httpResponse": {
+    "body": {
+      "items": [{"key":"1","value":"Ferrari"},{"key":"2","value":"Porsche"}]
+    }
+  }
+}]
