@@ -46,3 +46,17 @@ function assertOrderWithIdAndAmount {
 assertOrderWithIdAndAmount "1" 100
 assertOrderWithIdAndAmount "2" 69.99
 assertOrderWithIdAndAmount "3" 12.5
+
+### AUTOMOTIVE
+
+echo "Given request to coches makes"
+response=$(curl localhost:8011/api/makes --silent)
+
+echo -n " > Should return 2 makes: "
+test $(echo $response | jq '.items | length') == 2 && echo $pass || echo $fail
+
+echo "Given request to motos makes"
+response=$(curl localhost:8012/api/makes --silent)
+
+echo -n " > Should return 2 makes: "
+test $(echo $response | jq '.items | length') == 2 && echo $pass || echo $fail

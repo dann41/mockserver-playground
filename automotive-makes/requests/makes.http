@@ -1,0 +1,7 @@
+### makes coches
+GET http://localhost:8011/api/makes
+accept: application/json
+
+### makes motos
+GET http://localhost:8012/api/makes
+accept: application/json

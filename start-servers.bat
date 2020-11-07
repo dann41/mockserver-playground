@@ -1,5 +1,3 @@
-#!/bin/bash
-
 cd addresses
 docker-compose up -d
 cd ../customers
