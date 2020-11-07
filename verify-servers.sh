@@ -4,6 +4,18 @@ dockeripd="asd"
 pass="✅ PASS"
 fail="❌ FAIL"
 
+function assertEquals {
+    current=$1
+    expected=$2
+    if [ $current = $expected ]
+    then
+        echo $pass
+    else
+        echo $fail
+        echo "$expected expected but was $current"
+        exit 1
+    fi
+}
 
 function waitForServer {
     port=$1
@@ -18,7 +30,7 @@ function waitForServer {
         if [ $numTries -eq $maxTries ]
         then
             echo "Skipping after $numTries retries"
-            exit 1; 
+            exit 1
         fi
     done
     echo "Healthy server avilable at port $1"
@@ -32,10 +44,10 @@ function addressesTest {
     response=$(curl localhost:$ADDRESS_PORT/addresses/1 --silent -H "x-schibsted-tenant: motos")
 
     echo -n " > Should return address with id 1: "
-    test $(echo $response | jq .id) = '"1"' && echo $pass || echo $fail
+    assertEquals $(echo $response | jq .id) '"1"'
 
     echo -n " > Should return address with postalCode: "
-    test $(echo $response | jq .postalCode) = '"08830"' && echo $pass || echo $fail
+    assertEquals $(echo $response | jq .postalCode) '"08830"'
 }
 
 
@@ -47,13 +59,13 @@ function customersTest {
     response=$(curl localhost:$CUSTOMER_PORT/customers/1 --silent -H "x-schibsted-tenant: motos")
 
     echo -n " > Should return customer with id 1: "
-    test $(echo $response | jq .id) = '"1"' && echo $pass || echo $fail
+    assertEquals $(echo $response | jq .id) '"1"'
 
     echo -n " > Should return customer with name: "
-    test $(echo $response | jq .name) = '"customer1"' && echo $pass || echo $fail
+    assertEquals $(echo $response | jq .name) '"customer1"'
 
     echo -n " > Should return customer with 3 orders: "
-    test $(echo $response | jq '.orders | length') -eq 3 && echo $pass || echo $fail
+    assertEquals $(echo $response | jq '.orders | length') 3
 }
 
 ### ORDER TEST
@@ -66,10 +78,10 @@ function assertOrderWithIdAndAmount {
     response=$(curl localhost:$port/orders/$id --silent -H "x-schibsted-tenant: motos")
 
     echo -n " > Should return order with id $id: "
-    test $(echo $response | jq .id) = "\"$id\"" && echo $pass || echo $fail
+    assertEquals $(echo $response | jq .id) "\"$id\""
 
     echo -n " > Should return order with amount: "
-    test $(echo $response | jq .totalAmount) = $amount && echo $pass || echo $fail
+    assertEquals $(echo $response | jq .totalAmount) $amount
 
 }
 
@@ -93,14 +105,14 @@ function automotiveTest {
     response=$(curl localhost:$COCHES_PORT/api/makes --silent)
 
     echo -n " > Should return 2 makes: "
-    test $(echo $response | jq '.items | length') -eq 2 && echo $pass || echo $fail
+    assertEquals $(echo $response | jq '.items | length') 2
 
     waitForServer $MOTOS_PORT
     echo "Given request to motos makes"
     response=$(curl localhost:$MOTOS_PORT/api/makes --silent)
 
     echo -n " > Should return 2 makes: "
-    test $(echo $response | jq '.items | length') -eq 2 && echo $pass || echo $fail
+    assertEquals $(echo $response | jq '.items | length') 2
 }
 
 # Run tests
