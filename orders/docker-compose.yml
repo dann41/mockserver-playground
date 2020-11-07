@@ -10,3 +10,9 @@ services:
       MOCKSERVER_INITIALIZATION_JSON_PATH: /config/initializerJson.json
     volumes:
       - ./config:/config
+    networks:
+      - mock-servers
+      
+networks:
+  mock-servers:
+    name: mock-servers
