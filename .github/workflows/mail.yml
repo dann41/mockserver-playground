@@ -18,10 +18,10 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Start servers
-        run: ./start-servers.sh
+        run: docker-compose up
 
       - name: Test
         run: ./verify-servers.sh
         
       - name: Stop servers
-        run: ./stop-servers.sh
+        run: docker-compose down
