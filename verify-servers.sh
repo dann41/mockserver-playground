@@ -1,19 +1,19 @@
 #!/bin/bash
 
-dockeripd="asd"
-pass="✅ PASS"
-fail="❌ FAIL"
+totalTests=0
+failingTests=0
 
 function assertEquals {
     current=$1
     expected=$2
+    totalTests=$((totalTests+1))
     if [ $current = $expected ]
     then
-        echo $pass
+        echo "✅ PASS"
     else
-        echo $fail
+        echo "❌ FAIL"
         echo "$expected expected but was $current"
-        exit 1
+        failingTests=$((failingTests+1))
     fi
 }
 
@@ -120,3 +120,12 @@ addressesTest
 customersTest
 ordersTest
 automotiveTest
+
+if (( failingTests == 0 ))
+then
+    echo "All tests passed: $totalTests"
+    exit 0
+else
+    echo "Some tests failed: $failingTests / $totalTests"
+    exit 1
+fi
