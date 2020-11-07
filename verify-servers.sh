@@ -1,64 +1,110 @@
 #!/bin/bash
 
+dockeripd="asd"
 pass="✅ PASS"
 fail="❌ FAIL"
 
-### CUSTOMER TEST
-echo "Given request to customer 1"
-response=$(curl localhost:8020/customers/1 --silent -H "x-schibsted-tenant: motos")
-echo $response
 
-echo -n " > Should return customer with id 1: "
-test $(echo $response | jq .id) == '"1"' && echo $pass || echo $fail
+function waitForServer {
+    port=$1
+    maxTries=100
+    numTries=0
 
-echo -n " > Should return customer with name: "
-test $(echo $response | jq .name) == '"customer1"' && echo $pass || echo $fail
+    echo "Waiting for healthy server on port $1..."
+    while [ "$(curl -s -o /dev/null -w "%{http_code}\n" http://localhost:$1/health)" != "200" ] ; do   
+        sleep 0.1
 
-echo -n " > Should return customer with 3 orders: "
-test $(echo $response | jq '.orders | length') -eq 3 && echo $pass || echo $fail
+        numTries=$((numTries+1))
+        if [ $numTries -eq $maxTries ]
+        then
+            echo "Skipping after $numTries retries"
+            exit 1; 
+        fi
+    done
+    echo "Healthy server avilable at port $1"
+}
 
 ### ADDRESS TEST
-echo "Given request to address 1"
-response=$(curl localhost:8010/addresses/1 --silent -H "x-schibsted-tenant: motos")
-echo $response
+function addressesTest {
+    ADDRESS_PORT=8010
+    waitForServer $ADDRESS_PORT
+    echo "Given request to address 1"
+    response=$(curl localhost:$ADDRESS_PORT/addresses/1 --silent -H "x-schibsted-tenant: motos")
 
-echo -n " > Should return address with id 1: "
-test $(echo $response | jq .id) == '"1"' && echo $pass || echo $fail
+    echo -n " > Should return address with id 1: "
+    test $(echo $response | jq .id) = '"1"' && echo $pass || echo $fail
 
-echo -n " > Should return address with postalCode: "
-test $(echo $response | jq .postalCode) == '"08830"' && echo $pass || echo $fail
+    echo -n " > Should return address with postalCode: "
+    test $(echo $response | jq .postalCode) = '"08830"' && echo $pass || echo $fail
+}
 
+
+### CUSTOMER TEST
+function customersTest {
+    CUSTOMER_PORT=8020
+    waitForServer $CUSTOMER_PORT
+    echo "Given request to customer 1"
+    response=$(curl localhost:$CUSTOMER_PORT/customers/1 --silent -H "x-schibsted-tenant: motos")
+
+    echo -n " > Should return customer with id 1: "
+    test $(echo $response | jq .id) = '"1"' && echo $pass || echo $fail
+
+    echo -n " > Should return customer with name: "
+    test $(echo $response | jq .name) = '"customer1"' && echo $pass || echo $fail
+
+    echo -n " > Should return customer with 3 orders: "
+    test $(echo $response | jq '.orders | length') -eq 3 && echo $pass || echo $fail
+}
 
 ### ORDER TEST
 function assertOrderWithIdAndAmount {
     id=$1
     amount=$2
+    port=$3
 
     echo "Given request to order $id"
-    response=$(curl localhost:8030/orders/$id --silent -H "x-schibsted-tenant: motos")
+    response=$(curl localhost:$port/orders/$id --silent -H "x-schibsted-tenant: motos")
 
     echo -n " > Should return order with id $id: "
-    test $(echo $response | jq .id) == "\"$id\"" && echo $pass || echo $fail
+    test $(echo $response | jq .id) = "\"$id\"" && echo $pass || echo $fail
 
     echo -n " > Should return order with amount: "
-    test $(echo $response | jq .totalAmount) == $amount && echo $pass || echo $fail
+    test $(echo $response | jq .totalAmount) = $amount && echo $pass || echo $fail
 
 }
 
-assertOrderWithIdAndAmount "1" 100
-assertOrderWithIdAndAmount "2" 69.99
-assertOrderWithIdAndAmount "3" 12.5
+function ordersTest {
+    ORDERS_PORT=8030
+    waitForServer $ORDERS_PORT
+
+    assertOrderWithIdAndAmount "1" 100 $ORDERS_PORT
+    assertOrderWithIdAndAmount "2" 69.99 $ORDERS_PORT
+    assertOrderWithIdAndAmount "3" 12.5 $ORDERS_PORT
+}
+
 
 ### AUTOMOTIVE
+function automotiveTest {
+    COCHES_PORT=8011
+    MOTOS_PORT=8012
 
-echo "Given request to coches makes"
-response=$(curl localhost:8011/api/makes --silent)
+    waitForServer $COCHES_PORT
+    echo "Given request to coches makes"
+    response=$(curl localhost:$COCHES_PORT/api/makes --silent)
 
-echo -n " > Should return 2 makes: "
-test $(echo $response | jq '.items | length') == 2 && echo $pass || echo $fail
+    echo -n " > Should return 2 makes: "
+    test $(echo $response | jq '.items | length') -eq 2 && echo $pass || echo $fail
 
-echo "Given request to motos makes"
-response=$(curl localhost:8012/api/makes --silent)
+    waitForServer $MOTOS_PORT
+    echo "Given request to motos makes"
+    response=$(curl localhost:$MOTOS_PORT/api/makes --silent)
 
-echo -n " > Should return 2 makes: "
-test $(echo $response | jq '.items | length') == 2 && echo $pass || echo $fail
+    echo -n " > Should return 2 makes: "
+    test $(echo $response | jq '.items | length') -eq 2 && echo $pass || echo $fail
+}
+
+# Run tests
+addressesTest
+customersTest
+ordersTest
+automotiveTest
