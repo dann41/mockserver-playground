@@ -1,6 +1,6 @@
 version: "2.4"
 services:
-  mockServer:
+  customers-mock-server:
     image: mockserver/mockserver:mockserver-5.11.1
     command: -logLevel DEBUG -serverPort 1090 -proxyRemotePort 80 -proxyRemoteHost www.mock-server.com
     ports:
