@@ -3,16 +3,20 @@
 totalTests=0
 failingTests=0
 
+RED='\033[1;31m'
+GREEN='\033[1;32m'
+NC='\033[0m'
+
 function assertEquals {
     current=$1
     expected=$2
     totalTests=$((totalTests+1))
     if [ $current = $expected ]
     then
-        echo "✅ PASS"
+        echo -e "${GREEN}✅ PASS${NC}"
     else
-        echo "❌ FAIL"
-        echo "$expected expected but was $current"
+        echo -e "${RED}❌ FAIL${NC}"
+        echo -e "${RED}$expected expected but was $current${NC}"
         failingTests=$((failingTests+1))
     fi
 }
@@ -123,9 +127,9 @@ automotiveTest
 
 if (( failingTests == 0 ))
 then
-    echo "All tests passed: $totalTests"
+    echo -e "${GREEN}All tests passed: $totalTests${NC}"
     exit 0
 else
-    echo "Some tests failed: $failingTests / $totalTests"
+    echo -e "${RED}Some tests failed: $failingTests / $totalTests ${NC}"
     exit 1
 fi
