@@ -16,6 +16,7 @@ test $(echo $response | jq .postalCode) == '"08830"' && echo $pass || echo $fail
 ### CUSTOMER TEST
 echo "Given request to customer 1"
 response=$(curl localhost:8020/customers/1 --silent -H "x-schibsted-tenant: motos")
+echo $response
 
 echo -n " > Should return customer with id 1: "
 test $(echo $response | jq .id) == '"1"' && echo $pass || echo $fail
