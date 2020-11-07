@@ -10,8 +10,6 @@ services:
       MOCKSERVER_INITIALIZATION_JSON_PATH: /config/initializerJson.json
     volumes:
       - ./addresses/config:/config
-    networks:
-      - mock-servers
 
   coches-automotive-mock-server:
     image: mockserver/mockserver:mockserver-5.11.1
@@ -24,8 +22,6 @@ services:
       MOCKSERVER_INITIALIZATION_JSON_PATH: /config/initializerJson.json
     volumes:
       - ./automotive-makes/coches/config:/config
-    networks:
-      - mock-servers
 
   motos-automotive-mock-server:
     image: mockserver/mockserver:mockserver-5.11.1
@@ -38,8 +34,6 @@ services:
       MOCKSERVER_INITIALIZATION_JSON_PATH: /config/initializerJson.json
     volumes:
       - ./automotive-makes/motos/config:/config
-    networks:
-      - mock-servers
 
   customers-mock-server:
     image: mockserver/mockserver:mockserver-5.11.1
@@ -51,8 +45,6 @@ services:
       MOCKSERVER_INITIALIZATION_JSON_PATH: /config/initializerJson.json
     volumes:
       - ./customers/config:/config
-    networks:
-      - mock-servers
 
   orders-mock-server:
     image: mockserver/mockserver:mockserver-5.11.1
@@ -64,7 +56,3 @@ services:
       MOCKSERVER_INITIALIZATION_JSON_PATH: /config/initializerJson.json
     volumes:
       - ./orders/config:/config
-
-networks:
-  mock-servers:
-    name: mock-servers
