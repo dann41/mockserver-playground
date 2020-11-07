@@ -3,16 +3,6 @@
 pass="✅ PASS"
 fail="❌ FAIL"
 
-### ADDRESS TEST
-echo "Given request to address 1"
-response=$(curl localhost:8010/addresses/1 --silent -H "x-schibsted-tenant: motos")
-
-echo -n " > Should return address with id 1: "
-test $(echo $response | jq .id) == '"1"' && echo $pass || echo $fail
-
-echo -n " > Should return address with postalCode: "
-test $(echo $response | jq .postalCode) == '"08830"' && echo $pass || echo $fail
-
 ### CUSTOMER TEST
 echo "Given request to customer 1"
 response=$(curl localhost:8020/customers/1 --silent -H "x-schibsted-tenant: motos")
@@ -26,6 +16,17 @@ test $(echo $response | jq .name) == '"customer1"' && echo $pass || echo $fail
 
 echo -n " > Should return customer with 3 orders: "
 test $(echo $response | jq '.orders | length') -eq 3 && echo $pass || echo $fail
+
+### ADDRESS TEST
+echo "Given request to address 1"
+response=$(curl localhost:8010/addresses/1 --silent -H "x-schibsted-tenant: motos")
+echo $response
+
+echo -n " > Should return address with id 1: "
+test $(echo $response | jq .id) == '"1"' && echo $pass || echo $fail
+
+echo -n " > Should return address with postalCode: "
+test $(echo $response | jq .postalCode) == '"08830"' && echo $pass || echo $fail
 
 
 ### ORDER TEST
