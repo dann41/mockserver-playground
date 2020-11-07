@@ -112,7 +112,7 @@ function automotiveTest {
     response=$(curl localhost:$MOTOS_PORT/api/makes --silent)
 
     echo -n " > Should return 2 makes: "
-    assertEquals $(echo $response | jq '.items | length') 2
+    assertEquals $(echo $response | jq '.items | length') 1
 }
 
 # Run tests
