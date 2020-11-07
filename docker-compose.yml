@@ -14,9 +14,9 @@ services:
 
   coches-automotive-mock-server:
     image: mockserver/mockserver:mockserver-5.11.1
-    command: -logLevel DEBUG -serverPort 1091
+    command: -logLevel DEBUG -serverPort 1090
     ports:
-      - 8011:1091
+      - 8011:1090
     environment:
       MOCKSERVER_PROPERTY_FILE: /config/mockserver.properties
       MOCKSERVER_WATCH_INITIALIZATION_JSON: "true"
@@ -27,9 +27,9 @@ services:
 
   motos-automotive-mock-server:
     image: mockserver/mockserver:mockserver-5.11.1
-    command: -logLevel DEBUG -serverPort 1092
+    command: -logLevel DEBUG -serverPort 1090
     ports:
-      - 8012:1092
+      - 8012:1090
     environment:
       MOCKSERVER_PROPERTY_FILE: /config/mockserver.properties
       MOCKSERVER_WATCH_INITIALIZATION_JSON: "true"
@@ -40,9 +40,9 @@ services:
 
   customers-mock-server:
     image: mockserver/mockserver:mockserver-5.11.1
-    command: -logLevel DEBUG -serverPort 1093
+    command: -logLevel DEBUG -serverPort 1090
     ports:
-      - 8020:1093
+      - 8020:1090
     environment:
       MOCKSERVER_WATCH_INITIALIZATION_JSON: "true"
       MOCKSERVER_INITIALIZATION_JSON_PATH: /config/initializerJson.json
@@ -52,9 +52,9 @@ services:
 
   orders-mock-server:
     image: mockserver/mockserver:mockserver-5.11.1
-    command: -logLevel DEBUG -serverPort 1094
+    command: -logLevel DEBUG -serverPort 1090
     ports:
-      - 8030:1094
+      - 8030:1090
     environment:
       MOCKSERVER_WATCH_INITIALIZATION_JSON: "true"
       MOCKSERVER_INITIALIZATION_JSON_PATH: /config/initializerJson.json
