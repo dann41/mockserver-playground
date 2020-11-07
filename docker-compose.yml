@@ -1,0 +1,70 @@
+version: "3.8"
+services:
+  addresses-mock-server:
+    image: mockserver/mockserver:mockserver-5.11.1
+    command: -logLevel DEBUG -serverPort 1090 -proxyRemotePort 80 -proxyRemoteHost www.mock-server.com
+    ports:
+      - 8010:1090
+    environment:
+      MOCKSERVER_WATCH_INITIALIZATION_JSON: "true"
+      MOCKSERVER_INITIALIZATION_JSON_PATH: /config/initializerJson.json
+    volumes:
+      - ./addresses/config:/config
+    networks:
+      - mock-servers
+
+  coches-automotive-mock-server:
+    image: mockserver/mockserver:mockserver-5.11.1
+    command: -logLevel DEBUG -serverPort 1090 -proxyRemotePort 80 -proxyRemoteHost www.mock-server.com
+    ports:
+      - 8011:1090
+    environment:
+      MOCKSERVER_PROPERTY_FILE: /config/mockserver.properties
+      MOCKSERVER_WATCH_INITIALIZATION_JSON: "true"
+      MOCKSERVER_INITIALIZATION_JSON_PATH: /config/initializerJson.json
+    volumes:
+      - ./automotive-makes/coches/config:/config
+    networks:
+      - mock-servers
+
+  motos-automotive-mock-server:
+    image: mockserver/mockserver:mockserver-5.11.1
+    command: -logLevel DEBUG -serverPort 1090 -proxyRemotePort 80 -proxyRemoteHost www.mock-server.com
+    ports:
+      - 8012:1090
+    environment:
+      MOCKSERVER_PROPERTY_FILE: /config/mockserver.properties
+      MOCKSERVER_WATCH_INITIALIZATION_JSON: "true"
+      MOCKSERVER_INITIALIZATION_JSON_PATH: /config/initializerJson.json
+    volumes:
+      - ./automotive-makes/motos/config:/config
+    networks:
+      - mock-servers
+
+  customers-mock-server:
+    image: mockserver/mockserver:mockserver-5.11.1
+    command: -logLevel DEBUG -serverPort 1090 -proxyRemotePort 80 -proxyRemoteHost www.mock-server.com
+    ports:
+      - 8020:1090
+    environment:
+      MOCKSERVER_WATCH_INITIALIZATION_JSON: "true"
+      MOCKSERVER_INITIALIZATION_JSON_PATH: /config/initializerJson.json
+    volumes:
+      - ./customers/config:/config
+    networks:
+      - mock-servers
+
+  orders-mock-server:
+    image: mockserver/mockserver:mockserver-5.11.1
+    command: -logLevel DEBUG -serverPort 1090 -proxyRemotePort 80 -proxyRemoteHost www.mock-server.com
+    ports:
+      - 8030:1090
+    environment:
+      MOCKSERVER_WATCH_INITIALIZATION_JSON: "true"
+      MOCKSERVER_INITIALIZATION_JSON_PATH: /config/initializerJson.json
+    volumes:
+      - ./orders/config:/config
+
+networks:
+  mock-servers:
+    name: mock-servers
